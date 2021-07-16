@@ -13,6 +13,7 @@ class BaseSpeaker:
     Args:
       name : The speaker's name, to be reported in a greeting
     """
+
     target = "world"
 
     def __init__(self, name: str = "Testing"):

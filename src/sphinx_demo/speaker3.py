@@ -11,8 +11,5 @@ __all__ = ["Speaker3"]
 
 
 class Speaker3(BaseSpeaker):
-    def set_new_greeting(
-        self,
-        greeting: sphinx_demo.greeting3.Greeting3
-    ) -> None:
+    def set_new_greeting(self, greeting: sphinx_demo.greeting3.Greeting3) -> None:
         self.greeting = greeting

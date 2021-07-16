@@ -1,17 +1,17 @@
 from pytest import fixture, mark
 
-from sphinx_demo.greeting3 import Greeting3
-from sphinx_demo.speaker3 import Speaker3
+from sphinx_demo.greeting4 import Greeting4
+from sphinx_demo.speaker4 import Speaker4
 
 
 @fixture
 def s():
-    return Speaker3()
+    return Speaker4()
 
 
 @fixture
 def g(s):
-    return Greeting3(speaker=s)
+    return Greeting4(speaker=s)
 
 
 @mark.parametrize("expected", ["..."])

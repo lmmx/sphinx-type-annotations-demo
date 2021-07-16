@@ -1,23 +1,25 @@
-# sphinx-typing-circ-imp-demo
+# Sphinx Type Annotations Demo
 
 A demo of how to build Sphinx docs with type annotations in the presence of circular imports.
 
-## Executive summary
+## Summary
 
 > The possible ways `sphinx-autodoc-typehints` will let you use absolute imports
 > to resolve circular imports from importing annotation classes in a
 > `if typing.TYPE_CHECKING` conditional block is a partially overlapping set
 > of the possible ways to type hint a library with mypy alone.
 
-TL;DR? Skip the exploration of the different options, jump to the 2 bullet points
-at the end [⇣⇣⇣](#What-you-need-to-know)
+## Demo files
 
-## Demo file
+There are four working versions that represent different options for type annotations in Sphinx docs,
+included in this repo as separate modules:
 
-There are three working versions, included as separate modules:
-[`speaker1.py`](src/sphinx_demo/speaker1.py)`speaker1.py`,
-[`speaker2.py`](src/sphinx_demo/speaker2.py)`speaker2.py`,
-[`speaker3.py`](src/sphinx_demo/speaker3.py)`speaker3.py`,
+- [`speaker1.py`](src/sphinx_demo/speaker1.py) - class import from package module, `class` annotation
+- [`speaker2.py`](src/sphinx_demo/speaker2.py) - module import from package, `module.class` annotation
+- [`speaker3.py`](src/sphinx_demo/speaker3.py) - package import, `package.module.class annotation`
+- [`speaker4.py`](src/sphinx_demo/speaker4.py) - direct class import from package, `class` annotation
+
+The 4th has Sphinx-specific caveats that require a little explanation (use with care!)
 
 ### Option 1
 
@@ -40,7 +42,7 @@ Option 2 is to import the class itself
 
 ```py
 if typing.TYPE_CHECKING:
-    from sphinx_demo import greeting2
+    from sphinx_demo.greeting2 import Greeting2
 ```
 
 where the signature for the `set_new_greeting` method of the `Speaker2` class is:
@@ -85,11 +87,23 @@ However mypy rejects both of these approaches once again.
 The options are:
 
 1. `greeting: Greeting1` with conditional import `from sphinx_demo.greeting1 import Greeting1`
-2. `greeting: greeting.Greeting2` with conditional import `from sphinx_demo import greeting2`
-3. `greeting: sphinx_demo.greeting.Greeting3` with conditional import `import sphinx_demo`
+2. `greeting: greeting2.Greeting2` with conditional import `from sphinx_demo import greeting2`
+3. `greeting: sphinx_demo.greeting3.Greeting3` with conditional import `import sphinx_demo`
 
 Which you choose is just down to how concise (or inversely, how informative) you want your
-type annotations to be
+type annotations to be.
+
+Usually it's nice to have concise (shorter, less repetition/"boilerplate"), so we'd choose option 1.
+If you always want to note which modules/libraries provide which classes you'd choose option
+2 or 3 respectively.
+
+Total characters on the annotation:
+
+1. 9(`Greeting1`) = 9
+2. 9+1+9(`greeting2.Greeting2`) = 19
+3. 11+1+9+1+9(`sphinx_demo.greeting3.Greeting3`) = 31
+
+Both writing and (re-)reading 9 characters is easier going than 31. We'll come back to this point.
 
 ## Restrictions on usage
 
@@ -158,27 +172,27 @@ clear (as far as I can tell) that this is a hard rule, then to avoid the error y
 sure not to take that 'shortcut' when type annotating, since while mypy will allow it,
 you'll break your Sphinx build.
 
----
+#### :four_leaf_clover: Bonus 4th option :four_leaf_clover:
 
 In fact, it's even more strict than that. You cannot (as far as I can tell) import a class which is
 in one of these circular reference loops into the top-level namespace (even if you don't then
 import it for a type annotation).
 
-To continue the previous example back at the step before exploring how to import `Greeting1` to
-annotate `speaker1.Speaker1` directly, so with the import as:
+To back up to the step before exploring how to import `Greeting1` to annotate `speaker1.Speaker1`
+directly, where the import was:
 
 ```py
 if TYPE_CHECKING:
     from sphinx_demo import greeting1
 ```
 
-and the signature as
+and the signature was
 
 ```py
 greeting: greeting1.Greeting1
 ```
 
-but then return to the package `__init__.py`, we'll find it's possible to add the class import:
+and returning to the package `__init__.py`, we'll find it's possible to add the class import:
 
 ```py
 from sphinx_demo.greeting1 import Greeting1
@@ -199,15 +213,34 @@ sphinx_demo.greeting3   sphinx_demo.speaker1    sphinx_demo.speaker2    sphinx_d
 I don't really feel this is so bad (compared to not being able to put particular classes in the
 top-level package namespace at all)!
 
-- Minor side note: if using test coverage, add `# pragma: no cover` to the `if TYPE_CHECKING:` line.
+---
+
+So this means there's a 4th option, with an annotation identical to that of option 1:
+
+> 1. `greeting: Greeting1` with conditional import `from sphinx_demo.greeting1 import Greeting1`
+
+but it will differ in its import line, which can drop the `greeting1` module, provided the class
+is available (but not 'exported') in the package 'top-level' namespace.
+
+4. `greeting: Greeting4` with conditional import `from sphinx_demo import Greeting1`
+
+This is the most concise way, but it should come with the warning about the possibility
+of breaking your Sphinx build (with an uninformative error message) if you accidentally let
+put one of those top-level exposed classes in the package's `__all__` list.
 
 ## What you need to know
 
-- If you import classes into the top level of your package, you'll break your Sphinx
-  build if they have circular imports
-- You can avoid this by putting them at the top level but not in `__all__`
-  - or if you're not using `__all__`, start using it so you can control your package namespace
-    to keep those classes out of it
+- **Option 4:**
+  If you import classes into the top level of your package, you get more concise type annotation
+  imports, but if they get into the `__all__` (or presumably if you don't specify `__all__`
+  explicitly whatsoever) you'll break your Sphinx build
+  - if you're not using `__all__` but want top-level classes and Sphinx type annotations, start
+    using it so you can control your package namespace to keep those classes out of it
+  - There's a case that can be argued that letting docs dictate your package layout is undesirable,
+    but if it really just comes down to `__all__` then that might not be so bad.
+- **Option 1:**
+  If you don't want to do any of that, the reliable and most concise option for annotations is
+  to import classes from their module.
 
 ## Setup
 
@@ -254,3 +287,15 @@ To develop with this setup, also install pre-commit and tox
 pip install tox # to run the test and build suites locally
 pip install pre-commit # to run the pre-commit hooks on git commit
 ```
+
+## Addenda
+
+- If using test coverage, add `# pragma: no cover` to the `if TYPE_CHECKING:` line.
+  I've not done so here since it's meant to be a minimal reproducible example.
+
+- A good reason to use `tox` for building Sphinx docs is that it uses virtualenv to
+  take care of the PATH, whereas if you call `make html` from your `docs` directory
+  directly you'll (sometimes? seemingly at random?) get errors about your package not
+  being found (but then sometimes it'll build them just fine).
+  - To just build the docs in this repo's `tox` workflow, run `tox -e docs`. Just running
+    `tox` will run `mypy` and the `tests` too.
