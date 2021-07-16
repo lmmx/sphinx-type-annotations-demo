@@ -230,6 +230,9 @@ This is the most concise way, but it should come with the warning about the poss
 of breaking your Sphinx build (with an uninformative error message) if you accidentally let
 put one of those top-level exposed classes in the package's `__all__` list.
 
+I probably wouldn't go out of my way to dump a load of classes in the package namespace just for
+this purpose if it didn't seem right to do, again probably use as appropriate.
+
 ## What you need to know
 
 - **Option 4:**
