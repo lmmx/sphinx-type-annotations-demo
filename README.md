@@ -174,9 +174,11 @@ you'll break your Sphinx build.
 
 #### :four_leaf_clover: Bonus 4th option :four_leaf_clover:
 
-In fact, it's even more strict than that. You cannot (as far as I can tell) import a class which is
+In fact, it's even more strict than that. You cannot import a class which is
 in one of these circular reference loops into the top-level namespace (even if you don't then
 import it for a type annotation).
+
+> (OK actually you can but read on for the caveat)
 
 To back up to the step before exploring how to import `Greeting1` to annotate `speaker1.Speaker1`
 directly, where the import was:
