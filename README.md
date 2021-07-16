@@ -146,7 +146,7 @@ if TYPE_CHECKING:
 
 This seems much better, as now you'll be able to replace the type annotation too, surely?
 
-``py
+```py
 #greeting: greeting1.Greeting1
 greeting: Greeting1
 ```
