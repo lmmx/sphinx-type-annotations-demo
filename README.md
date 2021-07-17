@@ -20,7 +20,10 @@ to the minimal possible example (in this repo!)
 
 ```sh
 git clone https://github.com/lmmx/sphinx-type-annotations-demo
-
+cd sphinx-type-annotations-demo
+pip install tox
+pip install -e .[docs]
+tox -e docs # or `cd docs && make html`
 ```
 
 ## Development

@@ -22,7 +22,7 @@ turns this flag on when ``set_type_checking_flag`` is set to ``True`` in ``docs/
    :members:
    :undoc-members:
    :show-inheritance:
-  
+
 .. automodule:: sphinx_demo.speaker
    :members:
    :undoc-members:
