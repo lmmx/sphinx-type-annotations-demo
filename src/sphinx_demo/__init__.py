@@ -1,10 +1,10 @@
 r"""
 :mod:`sphinx_demo` provides a single class :class:`Speaker`,
-with a method, ``greet``, which creates an instance of the class
-:class:`Greeting`. This instance retains a reference to the 'parent'
-instance of :class:`Speaker`, creating a circular import which makes
-type checking a little more difficult when building Sphinx with the
-``sphinx-autodoc-typehints`` extension.
+with a method, ``set_new_greeting``, which takes an instance of the class
+:class:`Greeting` and stores it in the :attr:`greeting` attribute.
+This instance retains a reference to the 'parent' instance of
+class :class:`Speaker`, creating a circular type reference which breaks
+the Sphinx build when using the ``sphinx-autodoc-typehints`` extension.
 """
 
 from . import greeting, speaker
