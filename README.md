@@ -47,7 +47,7 @@ if TYPE_CHECKING:
 
 class Speaker:
     ...
-    
+
     def set_new_greeting(self, greeting: sphinx_demo.greeting.Greeting) -> None:
         self.greeting = greeting
 ```
