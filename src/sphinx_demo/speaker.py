@@ -2,15 +2,20 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .bases import BaseSpeaker
-from .config import OVERRIDE_IMPORT_CONDITION
-
-if OVERRIDE_IMPORT_CONDITION or TYPE_CHECKING:
+# if TYPE_CHECKING:
+if True or TYPE_CHECKING:
     import sphinx_demo
 
 __all__ = ["Speaker"]
 
 
-class Speaker(BaseSpeaker):
+class Speaker:
+    def __init__(self, name: str = "Testing"):
+        self.target = "world"
+        self.name = name
+
+    def greet(self) -> str:
+        return self.greeting.greet() if hasattr(self, "greeting") else "..."
+
     def set_new_greeting(self, greeting: sphinx_demo.greeting.Greeting) -> None:
         self.greeting = greeting

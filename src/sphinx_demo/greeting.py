@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .config import OVERRIDE_IMPORT_CONDITION
-
-if OVERRIDE_IMPORT_CONDITION or TYPE_CHECKING:
+# if TYPE_CHECKING:
+if True or TYPE_CHECKING:
     import sphinx_demo
 
 __all__ = ["Greeting"]
