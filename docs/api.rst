@@ -12,17 +12,17 @@ turns this flag on when ``set_type_checking_flag`` is set to ``True`` in ``docs/
 
 ----
 
-#.. automodule:: sphinx_demo
-#   :members:
-#   :undoc-members:
-#   :show-inheritance:
+.. automodule:: sphinx_demo
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 .. automodule:: sphinx_demo.greeting
    :members:
    :undoc-members:
    :show-inheritance:
-
+  
 .. automodule:: sphinx_demo.speaker
    :members:
    :undoc-members:
