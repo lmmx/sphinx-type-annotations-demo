@@ -12,51 +12,18 @@ turns this flag on when ``set_type_checking_flag`` is set to ``True`` in ``docs/
 
 ----
 
-.. automodule:: sphinx_demo
+#.. automodule:: sphinx_demo
+#   :members:
+#   :undoc-members:
+#   :show-inheritance:
+
+
+.. automodule:: sphinx_demo.greeting
    :members:
    :undoc-members:
    :show-inheritance:
 
-
-#.. automodule:: sphinx_demo.greeting1
-#   :members:
-#   :undoc-members:
-#   :show-inheritance:
-#
-#
-.. automodule:: sphinx_demo.greeting2
+.. automodule:: sphinx_demo.speaker
    :members:
    :undoc-members:
    :show-inheritance:
-
-
-#.. automodule:: sphinx_demo.greeting3
-#   :members:
-#   :undoc-members:
-#   :show-inheritance:
-#
-#.. automodule:: sphinx_demo.greeting4
-#   :members:
-#   :undoc-members:
-#   :show-inheritance:
-#
-#.. automodule:: sphinx_demo.speaker1
-#   :members:
-#   :undoc-members:
-#   :show-inheritance:
-#
-.. automodule:: sphinx_demo.speaker2
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-#.. automodule:: sphinx_demo.speaker3
-#   :members:
-#   :undoc-members:
-#   :show-inheritance:
-#
-#.. automodule:: sphinx_demo.speaker4
-#   :members:
-#   :undoc-members:
-#   :show-inheritance:
-#

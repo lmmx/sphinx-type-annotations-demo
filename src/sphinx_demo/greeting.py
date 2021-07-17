@@ -2,14 +2,16 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from sphinx_demo import speaker3
+from .config import OVERRIDE_IMPORT_CONDITION
 
-__all__ = ["Greeting3"]
+if OVERRIDE_IMPORT_CONDITION or TYPE_CHECKING:
+    import sphinx_demo
+
+__all__ = ["Greeting"]
 
 
-class Greeting3:
-    def __init__(self, speaker: speaker3.Speaker3, message: str = "Hello "):
+class Greeting:
+    def __init__(self, speaker: sphinx_demo.speaker.Speaker, message: str = "Hello "):
         self.speaker = speaker
         self.greeting = message
 

@@ -7,7 +7,7 @@ EXTRAS_REQUIRE = {
     "docs": [
         "sphinx>=4",
         "sphinx_rtd_theme",
-        "sphinx-autodoc-typehints==1.11.1",  # don't bump to 1.12.0
+        "sphinx-autodoc-typehints",
     ],
     "tests": ["pytest"],
 }
