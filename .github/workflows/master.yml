@@ -99,4 +99,4 @@ jobs:
           echo "conda=$(which conda)"
           python -m pip install -e .[dev]
       - name: "Import package"
-        run: "python -c 'import sphinx_bug_demo; print(sphinx_bug_demo)'"
+        run: "python -c 'import sphinx_demo; print(sphinx_demo)'"

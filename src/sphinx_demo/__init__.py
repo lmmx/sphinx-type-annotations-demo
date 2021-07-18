@@ -7,6 +7,6 @@ class :class:`Speaker`, creating a circular type reference which breaks
 the Sphinx build when using the ``sphinx-autodoc-typehints`` extension.
 """
 
-# from . import greeting, speaker
-#
-# __all__ = ["speaker", "greeting"]
+from . import greeting, speaker
+
+__all__ = ["speaker", "greeting"]
