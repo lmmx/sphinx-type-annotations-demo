@@ -2,6 +2,10 @@
 
 A demo of how to build Sphinx docs with type annotations in the presence of circular imports.
 
+Originally a bug reproduction repo, but bug identified and resolved
+(sphinx-autodoc-typehints issue
+[#180](https://github.com/agronholm/sphinx-autodoc-typehints/issues/180))
+
 ## Summary
 
 The README advice for `sphinx-autodoc-typehints` suggests to deal with circular imports as follows:
@@ -13,9 +17,10 @@ The README advice for `sphinx-autodoc-typehints` suggests to deal with circular 
 > 2.  Use forward references in the type annotations
 >     (e.g. `def methodname(self, param1: 'othermodule.OtherClass'):`)
 
-I tried this in a library with a circular import, and it didn't work, nor did it when I simplified
-to the minimal possible example (in this repo!)
+This repo contains a working example of resolving this.
 
+It previously did not work due to the presence of the autosummary extension,
+which prevented the proper activation of the `typing.TYPE_CHECKING` flag.
 
 ## How to reproduce
 
@@ -41,7 +46,6 @@ pip install pre-commit # to run the pre-commit hooks on git commit
 In short, the important parts of the module `speaker.py` are:
 
 ```py
-# if True:
 if TYPE_CHECKING:
     import sphinx_demo
 
@@ -55,7 +59,6 @@ class Speaker:
 and in `greeting.py`:
 
 ```py
-# if True:
 if TYPE_CHECKING:
     import sphinx_demo
 
@@ -63,20 +66,3 @@ class Greeting:
     def __init__(self, speaker: sphinx_demo.speaker.Speaker, message: str = "Hello "):
         self.speaker = speaker
 ```
-
-If you swap the commented out `if True` with the (uncommented) `if TYPE_CHECKING:`
-the error will go away.
-
-Specifically, the error given is that Sphinx cannot resolve a forward reference in each
-of the classes `Speaker` and `Greeting`, as the `name 'sphinx_demo' is not defined`
-(i.e. the module's name is not defined)
-
-```
-WARNING: Cannot resolve forward reference in type annotations of "sphinx_demo.greeting.Greeting":
-name 'sphinx_demo' is not defined
-WARNING: Cannot resolve forward reference in type annotations of
-"sphinx_demo.speaker.Speaker.set_new_greeting": name 'sphinx_demo' is not defined
-```
-
-This doesn't make sense given the advice to import the module was followed, so I'm reproducing
-it to see if I can find a solution.
